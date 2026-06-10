@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevForge // Premium All-in-One Web Tools</title>
+    
+    <meta name="description" content="DevForge is a premium all-in-one web utility platform. Access free client-side tools including Word Counter, QR Code Generator, QR Scanner, Password Creator, Image Compressor, Live Currency Converter, and Live Age Counter.">
+    <meta name="keywords" content="word counter, qr code generator, qr scanner, password creator, image compressor, currency converter, live age counter, bmi calculator, loan emi calculator, devforge tools">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="DevForge Labs">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0b0f19;
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 0 25px rgba(99, 102, 241, 0.15);
+        }
+        .tool-view {
+            display: none;
+        }
+        .tool-view.active {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="text-gray-200 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+
+    <header class="border-b border-gray-800/80 bg-gray-950/50 backdrop-blur-md sticky top-0 z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="showDashboard()">
+                <div class="bg-gradient-to-tr from-indigo-600 to-violet-500 p-2.5 rounded-xl shadow-lg shadow-indigo-500/20">
+                    <i class="fa-solid to-black fa-cubes text-xl text-white"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">DevForge<span class="text-indigo-500">.tools</span></span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="text-xs font-semibold uppercase tracking-widest bg-indigo-500/10 text-indigo-400 px-3 py-1.5 rounded-full border border-indigo-500/20">v2.0 Client-Side SPA</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 py-12">
+        
+        <div id="dashboardView" class="space-y-12">
+            <div class="text-center max-w-3xl mx-auto space-y-4">
+                <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+                    Premium Engineering Tools <br><span class="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">Simplified in One Dashboard.</span>
+                </h1>
+                <p class="text-gray-400 text-lg">Fast, secure, and privacy-focused utility tools processing everything locally inside your web browser. No cloud uploads needed.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-6">
+                <div onclick="switchTool('wordCounter')" class="glass-card p-6 rounded-2xl transition-all duration-300 cursor-pointer group">
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-font text-blue-400 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Word Counter</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Analyze text lengths dynamically with exact tracking for words, characters, and sentences.</p>
+                </div>
+
+                <div onclick="switchTool('qrGenerator')" class="glass-card p-6 rounded-2xl transition-all duration-300 cursor-pointer group">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-qrcode text-emerald-400 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">QR Code Generator</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Turn any text or URL string instantly into clean, high-resolution downloadable dynamic QR codes.</p>
+                </div>
+
+                <div onclick="switchTool('qrScanner')" class="glass-card p-6 rounded-2xl transition-all duration-300 cursor-pointer group">
+                    <div class="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-camera text-teal-400 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">QR Code Scanner</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Extract text details out of QR graphics via drag-and-drop imagery uploads or hardware webcam video streaming.</p>
+                </div>
+
+                <div onclick="switchTool('passwordCreator')" class="glass-card p-6 rounded-2xl transition-all duration-300 cursor-pointer group">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-shield-halved text-purple-400 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Password Creator</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Generate cryptographically secure alpha-numeric keys with fully custom parameter lengths.</p>
+                </div>
+
+                <div onclick="switchTool('imageCompressor')" class="glass-card p-6 rounded-2xl transition-all duration-300 cursor-pointer group">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-file-image text-amber-400 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Image Compressor</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Shrink payload file dimensions of JPEG/PNG media assets while preserving high structural visual clarity.</p>
+                </div>
+
+                <div onclick="switchTool('currencyConverter')" class="glass-card p-6 rounded-2xl transition-all duration-300 cursor-pointer group">
+                    <div class="w-12 h-12 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-money-bill-transfer text-pink-400 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Currency Converter</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Perform localized multi-currency fiscal metric conversions based on major dynamic exchange structures.</p>
+                </div>
+
+                <div onclick="switchTool('ageCounter')" class="glass-card p-6 rounded-2xl transition-all duration-300 cursor-pointer group">
+                    <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-calendar-days text-cyan-400 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Age Counter</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Calculate exact breakdowns of calendar milestones spanning years, months, and explicit days.</p>
+                </div>
+
+                <div onclick="switchTool('bmiCalculator')" class="glass-card p-6 rounded-2xl transition-all duration-300 cursor-pointer group">
+                    <div class="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-heart-pulse text-red-400 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">BMI Calculator</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Compute Body Mass Index with specialized, intuitive color grading indicating health statuses.</p>
+                </div>
+
+                <div onclick="switchTool('loanCalculator')" class="glass-card p-6 rounded-2xl transition-all duration-300 cursor-pointer group">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-scale-balanced text-indigo-400 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Loan Calculator</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Calculate monthly EMI debt payoffs alongside itemized principal and cumulative interest matrices.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="wordCounterView" class="tool-view max-w-4xl mx-auto">
+            <div class="flex items-center space-x-3 mb-6">
+                <button onclick="showDashboard()" class="px-4 py-2 rounded-xl bg-gray-900 border border-gray-800 hover:border-indigo-500 text-sm font-medium flex items-center space-x-2 transition-all cursor-pointer">
+                    <i class="fa-solid fa-arrow-left text-indigo-400"></i> <span>Back to Dashboard</span>
+                </button>
+                <button onclick="showDashboard()" class="px-4 py-2 rounded-xl bg-gray-900 border border-gray-800 hover:border-indigo-500 text-sm font-medium flex items-center space-x-2 transition-all cursor-pointer" title="Home">
+                    <i class="fa-solid fa-house text-indigo-400"></i> <span>Home</span>
+                </button>
+            </div>
+            <div class="glass-card p-8 rounded-3xl space-y-6">
+                <h2 class="text-2xl font-bold text-white flex items-center gap-3"><i class="fa-solid fa-font text-blue-400"></i> Word Counter</h2>
+                <textarea id="wordCounterInput" rows="8" class="w-full bg-gray-950/80 border border-gray-800 rounded-xl p-4 focus:outline-none focus:border-indigo-500 text-gray-100 placeholder-gray-600 transition-colors" placeholder="Type or paste your analytical string content here..."></textarea>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <div class="bg-gray-950/60 border border-gray-800/60 rounded-xl p-4 text-center">
+                        <div id="charCount" class="text-2xl font-bold text-indigo-400">0</div>
+                        <div class="text-xs text-gray-500 font-medium uppercase tracking-wider mt-1">Characters</div>
+                    </div>
+                    <div class="bg-gray-950/60 border border-gray-800/60 rounded-xl p-4 text-center">
+                        <div id="wordCount" class="text-2xl font-bold text-emerald-400">0</div>
+                        <div class="text-xs text-gray-500 font-medium uppercase tracking-wider mt-1">Words</div>
+                    </div>
+                    <div class="bg-gray-950/60 border border-gray-800/60 rounded-xl p-4 text-center">
+                        <div id="sentenceCount" class="text-2xl font-bold text-purple-400">0</div>
+                        <div class="text-xs text-gray-500 font-medium uppercase tracking-wider mt-1">Sentences</div>
+                    </div>
+                    <div class="bg-gray-950/60 border border-gray-800/60 rounded-xl p-4 text-center">
+                        <div id="paragraphCount" class="text-2xl font-bold text-pink-400">0</div>
+                        <div class="text-xs text-gray-500 font-medium uppercase tracking-wider mt-1">Paragraphs</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="qrGeneratorView" class="tool-view max-w-2xl mx-auto">
+            <div class="flex items-center space-x-3 mb-6">
+                <button onclick="showDashboard()" class="px-4 py-2 rounded-xl bg-gray-900 border border-gray-800 hover:border-indigo-500 text-sm font-medium flex items-center space-x-2 transition-all cursor-pointer">
+                    <i class="fa-solid fa-arrow-left text-indigo-400"></i> <span>Back to Dashboard</span>
+                </button>
+                <button onclick="showDashboard()" class="px-4 py-2 rounded-xl bg-gray-900 border border-gray-800 hover:border-indigo-500 text-sm font-medium flex items-center space-x-2 transition-all cursor-pointer" title="Home">
+                    <i class="fa-solid fa-house text-indigo-400"></i> <span>Home</span>
+                </button>
+            </div>
+            <div class="glass-card p-8 rounded-3xl space-y-6">
+                <h2 class="text-2xl font-bold text-white flex items-center gap-3"><i class="fa-solid fa-qrcode text-emerald-400"></i> QR Code Generator</h2>
+                <div class="space-y-2">
+                    <label class="text-sm font-semibold text-gray-400">Target Text / Source URL</label>
+                    <input type="text" id="qrInput" class="w-full bg-gray-950/80 border border-gray-800 rounded-xl p-4 focus:outline-none focus:border-indigo-500 text-gray-100" placeholder="https://example.com">
+                </div>
+                <button onclick="generateQRCode()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3.5 rounded-xl shadow-lg shadow-indigo-600/20 transition-all cursor-pointer">Generate QR Structural Matrix</button>
+                <div id="qrOutputContainer" class="hidden flex flex-col items-center justify-center p-6 bg-gray-950/40 border border-gray-800/60 rounded-2xl space-y-4">
+                    <div id="qrcode" class="p-4 bg-white rounded-xl inline-block"></div>
+                    <button onclick="downloadQRCode()" class="px-5 py-2.5 rounded-xl bg-gray-900 border border-gray-700 hover:border-emerald-500 text-sm font-semibold text-emerald-400 flex items-center gap-2 transition-all cursor-pointer">
+                        <i class="fa-solid fa-download"></i> Download QR Code
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="qrScannerView" class="tool-view max-w-2xl mx-auto">
+            <div class="flex items-center space-x-3 mb-6">
+                <button onclick="showDashboard()" class="px-4 py-2 rounded-xl bg-gray-900 border border-gray-800 hover:border-indigo-500 text-sm font-medium flex items-center space-x-2 transition-all cursor-pointer">
+                    <i class="fa-solid fa-arrow-left text-indigo-400"></i> <span>Back to Dashboard</span>
+                </button>
+                <button onclick="showDashboard()" class="px-4 py-2 rounded-xl bg-gray-900 border border-gray-800 hover:border-indigo-500 text-sm font-medium flex items-center space-x-2 transition-all cursor-pointer" title="Home">
+                    <i class="fa-solid fa-house text-indigo-400"></i> <span>Home</span>
+                </button>
+            </div>
+            <div class="glass-card p-8 rounded-3xl space-y-6">
+                <h2 class="text-2xl font-bold text-white flex items-center gap-3"><i class="fa-solid fa-camera text-teal-400"></i> QR Code Scanner</h2>
+                
+                <div id="dropZone" class="border-2 border-dashed border-gray-800 hover:border-indigo-500/50 bg-gray-950/40 rounded-2xl p-8 text-center transition-all cursor-pointer relative">
+                    <input type="file" id="qrFileInput" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
+                    <i class="fa-solid fa-cloud-arrow-up text-4xl text-gray-600 mb-3"></i>
+                    <p class="text-sm text-gray-300 font-medium">Drag & Drop QR Image here or <span class="text-indigo-400">Browse Files</span></p>
+                    <p class="text-xs text-gray-500 mt-1">Supports PNG, JPEG, WEBP</p>
+                </div>
+
+                <div class="relative flex items-center my-4">
+                    <div class="flex-grow border-t border-gray-800"></div>
+                    <span class="flex-shrink mx-4 text-gray-500 text-xs font-bold uppercase tracking-wider">OR</span>
+                    <div class="flex-grow border-t border-gray-800"></div>
+                </div>
+
+                <div class="text-center">
+                    <button onclick="startCameraScanner()" id="cameraBtn" class="px-5 py-3 rounded-xl bg-teal-600/10 border border-teal-500/20 hover:border-teal-500 text-sm font-bold text-teal-400 inline-flex items-center gap-2 transition-all cursor-pointer">
+                        <i class="fa-solid fa-video"></i> Scan via Live Device Camera
+                    </button>
+                </div>
+
+                <div id="videoContainer" class="hidden relative rounded-2xl overflow-hidden border border-gray-800 bg-black aspect-video">
+                    <video id="scannerVideo" class="w-full h-full object-cover"></video>
+                    <div class="absolute inset-0 border-2 border-teal-500/40 animate-pulse m-12 pointer-events-none rounded-lg"></div>
+                </div>
+
+                <div id="scannerResultContainer" class="hidden p-4 bg-gray-950/80 border border-gray-800 rounded-xl space-y-4">
+                    <div class="text-xs font-bold text-gray-500 uppercase tracking-widest">Extracted Metadata Output:</div>
+                    <p id="scannerResultText" class="text-sm font-mono text-emerald-400 break-all bg-black/40 p-3 rounded border border-emerald-950"></p>
+                    <div class="flex flex-wrap gap-3">
+                        <button onclick="copyScannerResult()" class="px-4 py-2 rounded-xl bg-gray-900 border border-gray-700 hover:border-indigo-500 text-xs font-bold text-indigo-400 flex items-center gap-2 transition-all cursor-pointer">
+                            <i class="fa-regular fa-copy"></i> Copy Result
+                        </button>
+                        <button onclick="openScannerResultInBrowser()" class="px-4 py-2 rounded-xl bg-gray-900 border border-gray-700 hover:border-emerald-500 text-xs font-bold text-emerald-400 flex items-center gap-2 transition-all cursor-pointer">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Open in Browser
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="passwordCreatorView" class="tool-view max-w-2xl mx-auto">
+            <div class="flex items-center space-x-3 mb-6">
+                <button onclick="showDashboard()" class="px-4 py-2 rounded-xl bg-gray-900 border border-gray-800 hover:border-indigo-500 text-sm font-medium flex items-center space-x-2 transition-all cursor-pointer">
+                    <i class="fa-solid fa-arrow-left text-indigo-400"></i> <span>Back to Dashboard</span>
+                </button>
+                <button onclick="showDashboard()" class="px-4 py-2 rounded-xl bg-gray-900 border border-gray-800 hover:border-indigo-500 text-sm font-medium flex items-center space-x-2 transition-all cursor-pointer" title="Home">
+                    <i class="fa-solid fa-house text-indigo-400"></i> <span>Home</span>
+                </button>
+            </div>
+            <div class="glass-card p-8 rounded-3xl space-y-6">
+                <h2 class="text-2xl font-bold text-white flex items-center gap-3"><i class="fa-solid fa-shield-halved text-purple-400"></i> Password Creator</h2>
+                
+                <div class="flex items-center bg-gray-950 rounded-xl p-4 border border-gray-800">
+                    <input type="text" id="passwordOutput" readonly class="bg-transparent text-xl font-mono text-purple-400 w-full focus:outline-none tracking-wide" value="Click Generate Below">
+                    <button onclick="copyPassword()" class="ml-3 text-gray-400 hover:text-white p-2 rounded-lg bg-gray-900 hover:bg-gray-800 border border-gray-800 transition-colors cursor-pointer" title="Copy Key">
+                        <i class="fa-regular fa-copy"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-400 font-medium">Character Key Length</span>
+                        <span id="lengthVal" class="font-bold text-indigo-400 bg-indigo-500/10 px-2.5 py-0.5 rounded border border-indigo-500/20">16</span>
+                    </div>
+                    <input type="range" id="passLength" min="6" max="64" value="16" oninput="document.getElementById('lengthVal').innerText = this.value" class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-indigo-500">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                    <label class="flex items-center space-x-3 bg-gray-950/40 p-3.5 rounded-xl border border-gray-800/60 cursor-pointer select-none">
+                        <input type="checkbox" id="passUpper" checked class="w-4 h-4 rounded text-indigo-600 bg-gray-900 border-gray-700 focus:ring-indigo-500">
+                        <span class="text-sm font-medium text-gray-300">Uppercase Letters (A-Z)</span>
+                    </label>
+                    <label class="flex items-center space-x-3 bg-gray-950/40 p-3.5 rounded-xl border border-gray-800/60 cursor-pointer select-none">
+                        <input type="checkbox" id="passLower" checked class="w-4 h-4 rounded text-indigo-600 bg-gray-900 border-gray-700 focus:ring-indigo-500">
+                        <span class="text-sm font-medium text-gray-300">Lowercase Letters (a-z)</span>
+                    </label>
+                    <label class="flex items-center space-x-3 bg-gray-950/40 p-3.5 rounded-xl border border-gray-800/60 cursor-pointer select-none">
+                        <input type="checkbox" id="passNumbers" checked class="w-4 h-4 rounded text-indigo-600 bg-gray-900 border-gray-700 focus:ring-indigo-500">
+                        <span class="text-sm font-medium text-gray-300">Numeric Values (0-9)</span>
+                    </label>
+                    <label class="flex items-center space-x-3 bg-gray-950/40 p-3.5 rounded-xl border border-gray-800/60 cursor-pointer select-none">
+                        <input type="checkbox" id="passSymbols" checked class="w-4 h-4 rounded text-indigo-600 bg-gray-900 border-gray-700 focus:ring-indigo-500">
+                        <span class="text-sm font-medium text-gray-300">Special Symbols (!@#$)</span>
+                    </label>
+                </div>
+
+                <button onclick="generateSecurePassword()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-semibold py-3.5 rounded-xl shadow-lg shadow-purple-600/20 transition-all cursor-pointer">Compile Cryptographic String</button>
+            </div>
+        </div>
+
+        <div id="imageCompressorView" class="tool-view max-w-2xl mx-auto">
+            <div class="flex items-center space-x-3 mb-6">
+                <button onclick="showDashboard()" class="px-4 py-2 rounded-xl bg-gray-900 border border-gray-800 hover:border-indigo-500 text-sm font-medium flex items-center space-x-2 transition-all cursor-pointer">
+                    <i class="fa-solid fa-arrow-left text-indigo-400"></i> <span>Back to Dashboard</span>
+                </button>
+                <button onclick="showDashboard()" class="px-4 py-2 rounded-xl bg-gray-900 border border-gray-800 hover:border-indigo-500 text-sm font-medium flex items-center space-x-2 transition-all cursor-pointer" title="Home">
+                    <i class="fa-solid fa-house text-indigo-400"></i> <span>Home</span>
+                </button>
+            </div>
+            <div class="glass-card p-8 rounded-3xl space-y-6">
+                <h2 class="text-2xl font-bold text-white flex items-center gap-3"><i class="fa-solid fa-file-image text-amber-400"></i> Image Compressor</h2>
+                
+                <div class="border-2 border-dashed border-gray-800 bg-gray-950/40 rounded-2xl p-8 text-center transition-all relative">
+                    <input type="file" id="compressImageInput" accept="image/jpeg, image/png" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleCompressionUpload(event)">
+                    <i class="fa-regular fa-images text-4xl text-gray-600 mb-3"></i>
+                    <p class="text-sm text-gray-300 font-medium" id="compressUploadName">Select or drop raw target image asset</p>
+                    <p class="text-xs text-gray-500 mt-1">Accepts maximum local optimization formats (JPEG/PNG)</p>
+                </div>
+
+                <div class="space-y-3">
+                    <div class="flex justify-between text-sm font-medium text-gray-400">
+                        <span>Target Compression Quality</span>
+                        <span id="qualityVal" class="text-amber-400 font-bold">80%</span>
+                    </div>
+                    <input type="range" id="compressQuality" min="10" max="100" value="80" oninput="document.getElementById('qualityVal').innerText = this.value + '%'" class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-xs font-semibold text-gray-400">Custom Width (px) <span class="text-[10px] text-gray-600">(Optional)</span></label>
+                        <input type="number" id="compressWidth" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-white focus:outline-none focus:border-amber-500" placeholder="Original">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-semibold text-gray-400">Custom Height (px) <span class="text-[10px] text-gray-600">(Optional)</span></label>
+                        <input type="number" id="compressHeight" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-white focus:outline-none focus:border-amber-500" placeholder="Original">
+                    </div>
+                </div>
+
+                <button onclick="executeCompression()" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-semibold py-3.5 rounded-xl shadow-lg transition-all cursor-pointer">Execute Compression Optimization</button>
+                
+                <div id="compressResultContainer" class="hidden grid grid-cols-2 gap-4 p-4 bg-gray-950/60 border border-gray-800 rounded-xl text-center">
+                    <div>
+                        <div class="text-xs text-gray-500 font-bold uppercase tracking-wider">Original Dimensions</div>
+                        <div id="origSize" class="text-sm font-semibold text-gray-300 mt-1">0 KB</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-gray-500 font-bold uppercase tracking-wider">Optimized Metric</div>
+                        <div id="newSize" class="text-sm font-bold text-emerald-400 mt-1">0 KB</div>
+                    </div>
+                    <div class="col-span-2 pt-2 border-t border-gray-900 flex justify-center">
+                        <button id="downloadCompressedBtn" class="px-5 py-2.5 rounded-xl bg-emerald-600/10 border border-emerald-500/20 hover:border-emerald-500 text-sm font-bold text-emerald-400 flex items-center gap-2 transition-all cursor-pointer">
+                            <i class="fa-solid fa-download"></i> Download Optimized Asset
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="currencyConverterView" class="tool-view max-w-2xl mx-auto">
+            <div class="flex items-center space-x-3 mb-6">
+                <button onclick="showDashboard()" class="px-4 py-2 rounded-xl bg-gray-900 border border-gray-800 hover:border-indigo-500 text-sm font-medium flex items-center space-x-2 transition-all cursor-pointer">
+                    <i class="fa-solid fa-arrow-left text-indigo-400"></i> <span>Back to Dashboard</span>
+                </button>
+                <button onclick="showDashboard()" class="px-4 py-2 rounded-xl bg-gray-900 border border-gray-800 hover:border-indigo-500 text-sm font-medium flex items-center space-x-2 transition-all cursor-pointer" title="Home">
+                    <i class="fa-solid fa-house text-indigo-400"></i> <span>Home</span>
+                </button>
+            </div>
+            <div class="glass-card p-8 rounded-3xl space-y-6">
+                <h2 class="text-2xl font-bold text-white flex items-center gap-3"><i class="fa-solid fa-money-bill-transfer text-pink-400"></i> Currency Converter</h2>
+                
+                <div class="space-y-2">
+                    <label class="text-sm font-semibold text-gray-400">Enter Monetary Amount</label>
+                    <input type="number" id="currencyAmount" value="100" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-4 text-white focus:outline-none focus:border-pink-500" placeholder="0.00">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold text-gray-400">Base Origin Source</label>
+                        <input type="text" id="currencyFrom" list="worldCurrenciesList" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-4 text-white focus:outline-none focus:border-pink-500" value="USD" placeholder="Type or select currency...">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold text-gray-400">Target Exchange Destination</label>
+                        <input type="text" id="currencyTo" list="worldCurrenciesList" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-4 text-white focus:outline-none focus:border-pink-500" value="EUR" placeholder="Type or select currency...">
+                    </div>
+                </div>
+
+                <datalist id="worldCurrenciesList">
+                    <option value="USD">USD - United States Dollar</option>
+                    <option value="EUR">EUR - Euro Zone</option>
+                    <option value="GBP">GBP - British Pound Sterling</option>
+                    <option value="PKR">PKR - Pakistani Rupee</option>
+                    <option value="AED">AED - UAE Dirham</option>
+                    <option value="SAR">SAR - Saudi Riyal</option>
+                    <option value="INR">INR - Indian Rupee</option>
+                    <option value="CAD">CAD - Canadian Dollar</option>
+                    <option value="AUD">AUD - Australian Dollar</option>
+                    <option value="JPY">JPY - Japanese Yen</option>
+                    <option value="CNY">CNY - Chinese Yuan</option>
+                    <option value="TRY">TRY - Turkish Lira</option>
+                    <option value="ZAR">ZAR - South African Rand</option>
+                    <option value="SGD">SGD - Singapore Dollar</option>
+                    <option value="NZD">NZD - New Zealand Dollar</option>
+                    <option value="CHF">CHF - Swiss Franc</option>
+                    <option value="KWD">KWD - Kuwaiti Dinar</option>
+                    <option value="BHD">BHD - Bahraini Dinar</option>
+                    <option value="OMR">OMR - Omani Rial</option>
+                    <option value="QAR">QAR - Qatari Riyal</option>
+                </datalist>
+
+                <button onclick="calculateCurrency()" class="w-full bg-pink-600 hover:bg-pink-500 text-white font-semibold py-3.5 rounded-xl shadow-lg transition-all cursor-pointer">Perform Rate Swap</button>
+                
+                <div id="currencyResult" class="hidden p-5 bg-gray-950/80 border border-gray-800 rounded-2xl text-center">
+                    <div class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Calculated Conversional Liquidity</div>
+                    <div id="currencyResultText" class="text-2xl font-extrabold text-pink-400">0.00</div>
+                    <div id="currencyTimestamp" class="text-[10px] text-gray-500 mt-1">Live updates integrated via cloud metrics</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="ageCounterView" class="tool-view max-w-4xl mx-auto">
+            <div class="flex items-center space-x-3 mb-6">
+                <button onclick="showDashboard()" class="px-4 py-2 rounded-xl bg-gray-900 border border-gray-800 hover:border-indigo-500 text-sm font-medium flex items-center space-x-2 transition-all cursor-pointer">
+                    <i class="fa-solid fa-arrow-left text-indigo-400"></i> <span>Back to Dashboard</span>
+                </button>
+                <button onclick="showDashboard()" class="px-4 py-2 rounded-xl bg-gray-900 border border-gray-800 hover:border-indigo-500 text-sm font-medium flex items-center space-x-2 transition-all cursor-pointer" title="Home">
+                    <i class="fa-solid fa-house text-indigo-400"></i> <span>Home</span>
+                </button>
+            </div>
+            <div class="glass-card p-8 rounded-3xl space-y-6">
+                <h2 class="text-2xl font-bold text-white flex items-center gap-3"><i class="fa-solid fa-calendar-days text-cyan-400"></i> Age Counter</h2>
+                <div class="space-y-2">
+                    <label class="text-sm font-semibold text-gray-400">Select Date of Birth</label>
+                    <input type="date" id="dobInput" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-4 text-white focus:outline-none focus:border-cyan-500">
+                </div>
+                <button onclick="initiateAgeTracking()" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-semibold py-3.5 rounded-xl shadow-lg transition-all cursor-pointer">Extract Chronological Lifespan</button>
+                
+                <div id="ageResultContainer" class="hidden space-y-6">
+                    <div class="border-b border-gray-800/60 pb-2">
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Calendar Breakdown Structure</span>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-center">
+                        <div class="p-3 bg-black/30 border border-gray-900 rounded-lg">
+                            <div id="ageYears" class="text-2xl font-bold text-cyan-400">0</div>
+                            <div class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-1">Years</div>
+                        </div>
+                        <div class="p-3 bg-black/30 border border-gray-900 rounded-lg">
+                            <div id="ageMonths" class="text-2xl font-bold text-purple-400">0</div>
+                            <div class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-1">Months</div>
+                        </div>
+                        <div class="p-3 bg-black/30 border border-gray-900 rounded-lg">
+                            <div id="ageDays" class="text-2xl font-bold text-pink-400">0</div>
+                            <div class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-1">Days</div>
+                        </div>
+                    </div>
+
+                    <div class="border-b border-gray-800/60 pt-2 pb-2">
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Cumulative Total Values Breakdown (From Midnight)</span>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-center">
+                        <div class="p-3 bg-black/30 border border-gray-900 rounded-lg">
+                            <div id="totalMonths" class="text-xl font-bold text-indigo-400">0</div>
+                            <div class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-1">Total Months</div>
+                        </div>
+                        <div class="p-3 bg-black/30 border border-gray-900 rounded-lg">
+                            <div id="totalWeeks" class="text-xl font-bold text-emerald-400">0</div>
+                            <div class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-1">Total Weeks</div>
+                        </div>
+                        <div class="p-3 bg-black/30 border border-gray-900 rounded-lg">
+                            <div id="totalDays" class="text-xl font-bold text-amber-400">0</div>
+                            <div class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-1">Total Days</div>
+                        </div>
+                        <div class="p-3 bg-black/30 border border-gray-900 rounded-lg">
+                            <div id="totalHours" class="text-xl font-bold text-teal-400">0</div>
+                            <div class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-1">Total Hours</div>
+                        </div>
+                        <div class="p-3 bg-black/30 border border-gray-900 rounded-lg">
+                            <div id="totalMinutes" class="text-xl font-bold text-purple-400">0</div>
+                            <div class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-1">Total Minutes</div>
+                        </div>
+                        <div class="p-3 bg-black/30 border border-gray-900 rounded-lg">
+                            <div id="totalSeconds" class="text-xl font-bold text-red-400">0</div>
+                            <div class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-1">Total Seconds</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="bmiCalculatorView" class="tool-view max-w-2xl mx-auto">
+            <div class="flex items-center space-x-3 mb-6">
+                <button onclick="showDashboard()" class="px-4 py-2 rounded-xl bg-gray-900 border border-gray-800 hover:border-indigo-500 text-sm font-medium flex items-center space-x-2 transition-all cursor-pointer">
+                    <i class="fa-solid fa-arrow-left text-indigo-400"></i> <span>Back to Dashboard</span>
+                </button>
+                <button onclick="showDashboard()" class="px-4 py-2 rounded-xl bg-gray-900 border border-gray-800 hover:border-indigo-500 text-sm font-medium flex items-center space-x-2 transition-all cursor-pointer" title="Home">
+                    <i class="fa-solid fa-house text-indigo-400"></i> <span>Home</span>
+                </button>
+            </div>
+            <div class="glass-card p-8 rounded-3xl space-y-6">
+                <h2 class="text-2xl font-bold text-white flex items-center gap-3"><i class="fa-solid fa-heart-pulse text-red-400"></i> BMI Calculator</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold text-gray-400">Weight Metric (Kilograms)</label>
+                        <input type="number" id="bmiWeight" value="70" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-4 text-white focus:outline-none focus:border-red-500" placeholder="e.g. 72">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold text-gray-400">Height Metric (Centimeters)</label>
+                        <input type="number" id="bmiHeight" value="175" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-4 text-white focus:outline-none focus:border-red-500" placeholder="e.g. 175">
+                    </div>
+                </div>
+                <button onclick="calculateBMI()" class="w-full bg-red-600 hover:bg-red-500 text-white font-semibold py-3.5 rounded-xl shadow-lg transition-all cursor-pointer">Analyze Health Index Score</button>
+                
+                <div id="bmiResultContainer" class="hidden p-5 bg-gray-950/80 border border-gray-800 rounded-2xl space-y-4 text-center">
+                    <div>
+                        <div class="text-xs font-bold text-gray-500 uppercase tracking-widest">Calculated Mass Output</div>
+                        <div id="bmiValue" class="text-3xl font-extrabold text-white mt-1">22.9</div>
+                    </div>
+                    <div class="space-y-2">
+                        <div id="bmiStatusText" class="text-sm font-bold tracking-wide">Normal Structural Target</div>
+                        <div class="w-full h-3 bg-gray-800 rounded-full overflow-hidden flex">
+                            <div class="h-full w-[25%] bg-blue-500 opacity-40" id="barUnder"></div>
+                            <div class="h-full w-[25%] bg-emerald-500 opacity-40" id="barNormal"></div>
+                            <div class="h-full w-[25%] bg-amber-500 opacity-40" id="barOver"></div>
+                            <div class="h-full w-[25%] bg-red-500 opacity-40" id="barObese"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="loanCalculatorView" class="tool-view max-w-2xl mx-auto">
+            <div class="flex items-center space-x-3 mb-6">
+                <button onclick="showDashboard()" class="px-4 py-2 rounded-xl bg-gray-900 border border-gray-800 hover:border-indigo-500 text-sm font-medium flex items-center space-x-2 transition-all cursor-pointer">
+                    <i class="fa-solid fa-arrow-left text-indigo-400"></i> <span>Back to Dashboard</span>
+                </button>
+                <button onclick="showDashboard()" class="px-4 py-2 rounded-xl bg-gray-900 border border-gray-800 hover:border-indigo-500 text-sm font-medium flex items-center space-x-2 transition-all cursor-pointer" title="Home">
+                    <i class="fa-solid fa-house text-indigo-400"></i> <span>Home</span>
+                </button>
+            </div>
+            <div class="glass-card p-8 rounded-3xl space-y-6">
+                <h2 class="text-2xl font-bold text-white flex items-center gap-3"><i class="fa-solid fa-scale-balanced text-indigo-400"></i> Loan EMI Calculator</h2>
+                <div class="space-y-4">
+                    <div class="space-y-1">
+                        <label class="text-xs font-semibold text-gray-400">Principal Financing Value</label>
+                        <input type="number" id="loanPrincipal" value="10000" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-white focus:outline-none focus:border-indigo-500">
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-xs font-semibold text-gray-400">Annual Percentage Yield Rate (%)</label>
+                            <input type="number" id="loanRate" value="7.5" step="0.1" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-white focus:outline-none focus:border-indigo-500">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-xs font-semibold text-gray-400">Maturity Horizon Tenure (Months)</label>
+                            <input type="number" id="loanTenure" value="24" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-white focus:outline-none focus:border-indigo-500">
+                        </div>
+                    </div>
+                </div>
+                <button onclick="calculateLoan()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3.5 rounded-xl shadow-lg transition-all cursor-pointer">Compute Loan Breakdown</button>
+                
+                <div id="loanResultContainer" class="hidden grid grid-cols-2 gap-4 p-4 bg-gray-950/60 border border-gray-800 rounded-xl text-center">
+                    <div class="p-2">
+                        <div class="text-[11px] text-gray-500 font-bold uppercase tracking-wider">Monthly Payment (EMI)</div>
+                        <div id="loanEmi" class="text-lg font-extrabold text-indigo-400 mt-1">$0.00</div>
+                    </div>
+                    <div class="p-2">
+                        <div class="text-[11px] text-gray-500 font-bold uppercase tracking-wider">Cumulative Pure Interest</div>
+                        <div id="loanInterest" class="text-lg font-bold text-purple-400 mt-1">$0.00</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="border-t border-gray-900/60 bg-gray-950/80 py-6 text-center text-xs text-gray-600">
+        <p>&copy; 2026 DevForge Platform Engine Labs. Sandboxed Browser Architecture Execution. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // --- ROUTING ENGINE CORE ---
+        function switchTool(toolId) {
+            resetToolData(toolId);
+
+            document.getElementById('dashboardView').style.display = 'none';
+            document.querySelectorAll('.tool-view').forEach(view => {
+                view.classList.remove('active');
+            });
+            stopCameraScanner();
+            stopAgeTracking(); 
+
+            const targetView = document.getElementById(`${toolId}View`);
+            if (targetView) {
+                targetView.classList.add('active');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showDashboard() {
+            stopCameraScanner();
+            stopAgeTracking();
+            document.querySelectorAll('.tool-view').forEach(view => {
+                view.classList.remove('active');
+            });
+            document.getElementById('dashboardView').style.display = 'block';
+        }
+
+        function resetToolData(toolId) {
+            if (toolId === 'wordCounter') {
+                document.getElementById('wordCounterInput').value = '';
+                document.getElementById('charCount').innerText = '0';
+                document.getElementById('wordCount').innerText = '0';
+                document.getElementById('sentenceCount').innerText = '0';
+                document.getElementById('paragraphCount').innerText = '0';
+            } else if (toolId === 'qrGenerator') {
+                document.getElementById('qrInput').value = '';
+                document.getElementById('qrOutputContainer').classList.add('hidden');
+                document.getElementById('qrcode').innerHTML = '';
+            } else if (toolId === 'qrScanner') {
+                document.getElementById('qrFileInput').value = '';
+                document.getElementById('scannerResultContainer').classList.add('hidden');
+                document.getElementById('scannerResultText').innerText = '';
+            } else if (toolId === 'passwordCreator') {
+                document.getElementById('passwordOutput').value = 'Click Generate Below';
+                document.getElementById('passLength').value = '16';
+                document.getElementById('lengthVal').innerText = '16';
+                document.getElementById('passUpper').checked = true;
+                document.getElementById('passLower').checked = true;
+                document.getElementById('passNumbers').checked = true;
+                document.getElementById('passSymbols').checked = true;
+            } else if (toolId === 'imageCompressor') {
+                globalCompressFileTarget = null;
+                document.getElementById('compressImageInput').value = '';
+                document.getElementById('compressUploadName').innerText = 'Select or drop raw target image asset';
+                document.getElementById('compressQuality').value = '80';
+                document.getElementById('qualityVal').innerText = '80%';
+                document.getElementById('compressWidth').value = '';
+                document.getElementById('compressHeight').value = '';
+                document.getElementById('compressResultContainer').classList.add('hidden');
+            } else if (toolId === 'currencyConverter') {
+                document.getElementById('currencyAmount').value = '100';
+                document.getElementById('currencyFrom').value = 'USD';
+                document.getElementById('currencyTo').value = 'EUR';
+                document.getElementById('currencyResult').classList.add('hidden');
+            } else if (toolId === 'ageCounter') {
+                document.getElementById('dobInput').value = '';
+                document.getElementById('ageResultContainer').classList.add('hidden');
+            } else if (toolId === 'bmiCalculator') {
+                document.getElementById('bmiWeight').value = '70';
+                document.getElementById('bmiHeight').value = '175';
+                document.getElementById('bmiResultContainer').classList.add('hidden');
+            } else if (toolId === 'loanCalculator') {
+                document.getElementById('loanPrincipal').value = '10000';
+                document.getElementById('loanRate').value = '7.5';
+                document.getElementById('loanTenure').value = '24';
+                document.getElementById('loanResultContainer').classList.add('hidden');
+            }
+        }
+
+        // --- 1. WORD COUNTER SUBSYSTEM ---
+        const txtArea = document.getElementById('wordCounterInput');
+        txtArea.addEventListener('input', () => {
+            const val = txtArea.value;
+            document.getElementById('charCount').innerText = val.length;
+            
+            const words = val.trim().split(/\s+/).filter(w => w.length > 0);
+            document.getElementById('wordCount').innerText = words.length;
+
+            const sentences = val.split(/[.!?]+/).filter(s => s.trim().length > 0);
+            document.getElementById('sentenceCount').innerText = sentences.length;
+
+            const paragraphs = val.split(/\n+/).filter(p => p.trim().length > 0);
+            document.getElementById('paragraphCount').innerText = paragraphs.length;
+        });
+
+        // --- 2. QR MATRIX GENERATOR SUBSYSTEM ---
+        let qrCodeInstance = null;
+        function generateQRCode() {
+            const inputVal = document.getElementById('qrInput').value.trim();
+            if (!inputVal) return alert('Target metadata payload container context cannot stand completely void.');
+            
+            const outContainer = document.getElementById('qrOutputContainer');
+            const targetDiv = document.getElementById('qrcode');
+            targetDiv.innerHTML = '';
+            
+            outContainer.classList.remove('hidden');
+            qrCodeInstance = new QRCode(targetDiv, {
+                text: inputVal,
+                width: 180,
+                height: 180,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+
+        function downloadQRCode() {
+            const imgEl = document.getElementById('qrcode').querySelector('img');
+            if (!imgEl) return alert('Generate active valid visual asset first.');
+            const link = document.createElement('a');
+            link.download = 'devforge-matrix-qr.png';
+            link.href = imgEl.src;
+            link.click();
+        }
+
+        // --- 3. QR DECODER SCANNER SUBSYSTEM ---
+        let localStreamRef = null;
+        let animationFrameId = null;
+
+        const fileInput = document.getElementById('qrFileInput');
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+                    const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const code = jsQR(imgData.data, imgData.width, imgData.height);
+                    
+                    const resContainer = document.getElementById('scannerResultContainer');
+                    const resText = document.getElementById('scannerResultText');
+                    resContainer.classList.remove('hidden');
+                    if (code) {
+                        resText.innerText = code.data;
+                        resText.className = "text-sm font-mono text-emerald-400 break-all bg-black/40 p-3 rounded border border-emerald-950";
+                    } else {
+                        resText.innerText = "Error: Failed to isolate structural QR bounds within targeted file asset.";
+                        resText.className = "text-sm font-mono text-red-400 break-all bg-black/40 p-3 rounded border border-red-950";
+                    }
+                }
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        async function startCameraScanner() {
+            const video = document.getElementById('scannerVideo');
+            const container = document.getElementById('videoContainer');
+            const btn = document.getElementById('cameraBtn');
+
+            try {
+                localStreamRef = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+                video.srcObject = localStreamRef;
+                video.setAttribute("playsinline", true);
+                video.play();
+                container.classList.remove('hidden');
+                btn.classList.add('hidden');
+                animationFrameId = requestAnimationFrame(tickWebcamFrame);
+            } catch (err) {
+                alert("Webcam device authorization fault sequence captured: " + err.message);
+            }
+        }
+
+        function tickWebcamFrame() {
+            const video = document.getElementById('scannerVideo');
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const code = jsQR(imgData.data, imgData.width, imgData.height);
+
+                if (code) {
+                    const resContainer = document.getElementById('scannerResultContainer');
+                    const resText = document.getElementById('scannerResultText');
+                    resContainer.classList.remove('hidden');
+                    resText.innerText = code.data;
+                    resText.className = "text-sm font-mono text-emerald-400 break-all bg-black/40 p-3 rounded border border-emerald-950";
+                    stopCameraScanner();
+                    return;
+                }
+            }
+            animationFrameId = requestAnimationFrame(tickWebcamFrame);
+        }
+
+        function stopCameraScanner() {
+            const container = document.getElementById('videoContainer');
+            const btn = document.getElementById('cameraBtn');
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            if (localStreamRef) {
+                localStreamRef.getTracks().forEach(track => track.stop());
+                localStreamRef = null;
+            }
+            if(container) container.classList.add('hidden');
+            if(btn) btn.classList.remove('hidden');
+        }
+
+        function copyScannerResult() {
+            const resText = document.getElementById('scannerResultText').innerText;
+            if(!resText || resText.startsWith("Error:")) return alert("No valid metadata scanned to copy.");
+            navigator.clipboard.writeText(resText);
+            alert("Scanned payload content successfully duplicated to local system clipboard.");
+        }
+
+        function openScannerResultInBrowser() {
+            const resText = document.getElementById('scannerResultText').innerText;
+            if(!resText || resText.startsWith("Error:")) return alert("No valid metadata scanned to process.");
+            
+            const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/;
+            if(urlPattern.test(resText)) {
+                const secureUrl = resText.startsWith('http') ? resText : `https://${resText}`;
+                window.open(secureUrl, '_blank');
+            } else {
+                window.open(`https://www.google.com/search?q=${encodeURIComponent(resText)}`, '_blank');
+            }
+        }
+
+        // --- 4. CRYPTOGRAPHIC KEY CREATOR SYSTEM ---
+        function generateSecurePassword() {
+            const len = parseInt(document.getElementById('passLength').value);
+            const upper = document.getElementById('passUpper').checked;
+            const lower = document.getElementById('passLower').checked;
+            const num = document.getElementById('passNumbers').checked;
+            const sym = document.getElementById('passSymbols').checked;
+
+            let charSet = "";
+            if (upper) charSet += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            if (lower) charSet += "abcdefghijklmnopqrstuvwxyz";
+            if (num) charSet += "0123456789";
+            if (sym) charSet += "!@#$%^&*()_+~`|}{[]:;?><,./-=";
+
+            if (!charSet) return alert("Select at minimum one logic metric allocation character block.");
+
+            let password = "";
+            const array = new Uint32Array(len);
+            window.crypto.getRandomValues(array);
+            for (let i = 0; i < len; i++) {
+                password += charSet[array[i] % charSet.length];
+            }
+            document.getElementById('passwordOutput').value = password;
+        }
+
+        function copyPassword() {
+            const el = document.getElementById('passwordOutput');
+            if(el.value === "Click Generate Below") return;
+            el.select();
+            navigator.clipboard.writeText(el.value);
+            alert("Cryptographic character string mirrored safely to system clipboard.");
+        }
+
+        // --- 5. IMAGE OPTIMIZATION ENGINE ---
+        let globalCompressFileTarget = null;
+        function handleCompressionUpload(e) {
+            const file = e.target.files[0];
+            if(!file) return;
+            globalCompressFileTarget = file;
+            document.getElementById('compressUploadName').innerText = file.name;
+        }
+
+        function executeCompression() {
+            if(!globalCompressFileTarget) return alert("Deploy source image target tracking file matrix asset first.");
+            const qualityVal = parseInt(document.getElementById('compressQuality').value) / 100;
+            
+            const customWidth = document.getElementById('compressWidth').value;
+            const customHeight = document.getElementById('compressHeight').value;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    canvas.width = customWidth ? parseInt(customWidth) : img.width;
+                    canvas.height = customHeight ? parseInt(customHeight) : img.height;
+                    
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                    canvas.toBlob((blob) => {
+                        document.getElementById('origSize').innerText = (globalCompressFileTarget.size / 1024).toFixed(2) + " KB";
+                        document.getElementById('newSize').innerText = (blob.size / 1024).toFixed(2) + " KB";
+                        document.getElementById('compressResultContainer').classList.remove('hidden');
+                        
+                        const dlBtn = document.getElementById('downloadCompressedBtn');
+                        dlBtn.onclick = function() {
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = `optimized_${globalCompressFileTarget.name}`;
+                            a.click();
+                        };
+                    }, "image/jpeg", qualityVal);
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(globalCompressFileTarget);
+        }
+
+        // --- 6. METRIC FISCAL CURRENCY EXCHANGE LOGIC (LIVE ONLINE LAYER) ---
+        async function calculateCurrency() {
+            const amt = parseFloat(document.getElementById('currencyAmount').value);
+            const from = document.getElementById('currencyFrom').value.trim().toUpperCase();
+            const to = document.getElementById('currencyTo').value.trim().toUpperCase();
+            if(isNaN(amt) || amt <= 0) return alert("Verify core conversion entry allocations data parameters.");
+
+            const resDiv = document.getElementById('currencyResult');
+            const resTxt = document.getElementById('currencyResultText');
+            const tsDiv = document.getElementById('currencyTimestamp');
+
+            resDiv.classList.remove('hidden');
+            resTxt.innerText = "Syncing Live Rates...";
+
+            try {
+                const response = await fetch(`https://open.er-api.com/v6/latest/${from}`);
+                if (!response.ok) throw new Error("Network feed layer rejected response array.");
+                
+                const data = await response.json();
+                if (data.result === "success" && data.rates[to]) {
+                    const dynamicRateValue = data.rates[to];
+                    const targetOutputResult = amt * dynamicRateValue;
+                    resTxt.innerText = `${targetOutputResult.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} ${to}`;
+                    tsDiv.innerText = `Live sync active. Base: 1 ${from} = ${dynamicRateValue.toFixed(4)} ${to}`;
+                } else {
+                    throw new Error("Target mapping profile non-existent.");
+                }
+            } catch (err) {
+                const indexRates = {
+                    "USD": 1.00, "EUR": 0.92, "GBP": 0.79, "PKR": 278.50, "AED": 3.67,
+                    "SAR": 3.75, "INR": 83.50, "CAD": 1.37, "AUD": 1.51, "JPY": 157.20
+                };
+                if(indexRates[from] && indexRates[to]) {
+                    const baseInUSD = amt / indexRates[from];
+                    const targetOutputResult = baseInUSD * indexRates[to];
+                    resTxt.innerText = `${targetOutputResult.toFixed(2)} ${to}`;
+                    tsDiv.innerText = "Offline Mode Layer Active (Using structural sandbox cache matrix).";
+                } else {
+                    resTxt.innerText = "Sync Protocol Fault";
+                    alert("Unable to fetch online tracking indices. Connect terminal to open web streams.");
+                }
+            }
+        }
+
+        // --- 7. CHRONOLOGICAL AGE COUNTER (TOTAL CUMULATIVE LIFESPAN BREAKDOWN) ---
+        let ageIntervalLoopRef = null;
+
+        function initiateAgeTracking() {
+            const dobString = document.getElementById('dobInput').value;
+            if(!dobString) return alert("Supply chronological milestone date tracking data points.");
+            
+            document.getElementById('ageResultContainer').classList.remove('hidden');
+            stopAgeTracking(); 
+            
+            runAgeTickLogic(dobString);
+            ageIntervalLoopRef = setInterval(() => {
+                runAgeTickLogic(dobString);
+            }, 1000);
+        }
+
+        function runAgeTickLogic(dobString) {
+            const dob = new Date(dobString + "T00:00:00");
+            const now = new Date();
+
+            if (dob > now) {
+                stopAgeTracking();
+                return alert("Target birth metrics cannot exceed modern spatial runtime dimensions.");
+            }
+
+            let years = now.getFullYear() - dob.getFullYear();
+            let months = now.getMonth() - dob.getMonth();
+            let days = now.getDate() - dob.getDate();
+
+            if (days < 0) {
+                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                days += prevMonth.getDate();
+                months--;
+            }
+            if (months < 0) {
+                months += 12;
+                years--;
+            }
+
+            const totalMillisecondsDelta = now.getTime() - dob.getTime();
+            
+            const accumTotalSeconds = Math.floor(totalMillisecondsDelta / 1000);
+            const accumTotalMinutes = Math.floor(accumTotalSeconds / 60);
+            const accumTotalHours = Math.floor(accumTotalMinutes / 60);
+            const accumTotalDays = Math.floor(accumTotalHours / 24);
+            const accumTotalWeeks = Math.floor(accumTotalDays / 7);
+            const remainingWeeksDays = accumTotalDays % 7;
+
+            let accumTotalMonths = (now.getFullYear() - dob.getFullYear()) * 12 + (now.getMonth() - dob.getMonth());
+            if (now.getDate() < dob.getDate()) {
+                accumTotalMonths--;
+            }
+            let remainingMonthsDays = now.getDate() - dob.getDate();
+            if (remainingMonthsDays < 0) {
+                const prevMonthInfo = new Date(now.getFullYear(), now.getMonth(), 0);
+                remainingMonthsDays += prevMonthInfo.getDate();
+            }
+
+            document.getElementById('ageYears').innerText = years;
+            document.getElementById('ageMonths').innerText = months;
+            document.getElementById('ageDays').innerText = days;
+
+            document.getElementById('totalMonths').innerText = `${accumTotalMonths} Mon, ${remainingMonthsDays} Days`;
+            document.getElementById('totalWeeks').innerText = `${accumTotalWeeks} Wks, ${remainingWeeksDays} Days`;
+            document.getElementById('totalDays').innerText = accumTotalDays.toLocaleString();
+            document.getElementById('totalHours').innerText = accumTotalHours.toLocaleString();
+            document.getElementById('totalMinutes').innerText = accumTotalMinutes.toLocaleString();
+            document.getElementById('totalSeconds').innerText = accumTotalSeconds.toLocaleString();
+        }
+
+        function stopAgeTracking() {
+            if(ageIntervalLoopRef) {
+                clearInterval(ageIntervalLoopRef);
+                ageIntervalLoopRef = null;
+            }
+        }
+
+        // --- 8. BMI SCORE CALCULATION ANALYSIS ---
+        function calculateBMI() {
+            const w = parseFloat(document.getElementById('bmiWeight').value);
+            const h = parseFloat(document.getElementById('bmiHeight').value) / 100;
+
+            if(!w || !h || w <= 0 || h <= 0) return alert("Verify logical integrity structure metrics entries.");
+            const score = w / (h * h);
+
+            document.getElementById('bmiResultContainer').classList.remove('hidden');
+            document.getElementById('bmiValue').innerText = score.toFixed(1);
+
+            const txt = document.getElementById('bmiStatusText');
+            document.getElementById('barUnder').style.opacity = "0.2";
+            document.getElementById('barNormal').style.opacity = "0.2";
+            document.getElementById('barOver').style.opacity = "0.2";
+            document.getElementById('barObese').style.opacity = "0.2";
+
+            if(score < 18.5) {
+                txt.innerText = "Underweight Status Target Focus";
+                txt.className = "text-sm font-bold text-blue-400";
+                document.getElementById('barUnder').style.opacity = "1";
+            } else if(score >= 18.5 && score < 25) {
+                txt.innerText = "Healthy Target Index Equilibrium Achieved";
+                txt.className = "text-sm font-bold text-emerald-400";
+                document.getElementById('barNormal').style.opacity = "1";
+            } else if(score >= 25 && score < 30) {
+                txt.innerText = "Overweight Index Parameter Metric Warnings";
+                txt.className = "text-sm font-bold text-amber-400";
+                document.getElementById('barOver').style.opacity = "1";
+            } else {
+                txt.innerText = "Critical Obese Structural Metric Threshold Alert";
+                txt.className = "text-sm font-bold text-red-500";
+                document.getElementById('barObese').style.opacity = "1";
+            }
+        }
+
+        // --- 9. FINANCING DEBT EMI CALCULATION ENGINE ---
+        function calculateLoan() {
+            const p = parseFloat(document.getElementById('loanPrincipal').value);
+            const annualRate = parseFloat(document.getElementById('loanRate').value);
+            const t = parseInt(document.getElementById('loanTenure').value);
+
+            if(!p || !annualRate || !t || p <= 0 || annualRate <= 0 || t <= 0) {
+                return alert("Re-evaluate itemized system calculations matrix parameters input elements.");
+            }
+
+            const r = (annualRate / 12) / 100;
+            const emi = (p * r * Math.pow(1 + r, t)) / (Math.pow(1 + r, t) - 1);
+            const cumulativePayable = emi * t;
+            const pureInterestPayoff = cumulativePayable - p;
+
+            document.getElementById('loanResultContainer').classList.remove('hidden');
+            document.getElementById('loanEmi').innerText = `$${emi.toFixed(2)}`;
+            document.getElementById('loanInterest').innerText = `$${pureInterestPayoff.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
